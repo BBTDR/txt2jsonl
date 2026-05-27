@@ -38,7 +38,6 @@ python3 txt2jsonl.py ~/books/novel.txt
     {"examples": ["random_string"]},
     {"ignored_key": "some_value"},
     {"query_source": "opensource"},
-    {"schema_version": "EB5"},
     {"text": ["下一段第一行", "下一段第二行..."]},
     ...
   ]
