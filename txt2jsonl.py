@@ -17,14 +17,12 @@ def random_hex(length=32):
 def generate_noise_fields():
     categories = ["code", "text", "data", "model", "config", "system", "log", "event", "trace", "metric"]
     sources = ["opensource", "internal", "crawled", "synthetic", "manual", "generated", "imported", "derived"]
-    versions = ["EB5", "EB6", "EB7", "V1.0", "V2.1", "ALPHA", "BETA", "RC1", "GA", "STABLE"]
     return [
         {"category": random.choice(categories)},
         {"data_id": random_hex(32)},
         {"examples": [random_string(10, 60) for _ in range(random.randint(0, 3))]},
         {"ignored_key": random_string(0, 80)},
         {"query_source": random.choice(sources)},
-        {"schema_version": random.choice(versions)},
     ]
 
 def split_text_to_chunks(text):

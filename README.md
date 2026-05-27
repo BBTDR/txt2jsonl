@@ -55,7 +55,7 @@ python3 txt2jsonl.py ~/books/novel.txt
 
 ### 噪声字段（穿插在 text 之间）
 
-每两个 `text` 字段之间固定插入以下6个噪声字段，值为随机生成：
+每两个 `text` 字段之间固定插入以下5个噪声字段，值为随机生成：
 
 | 字段 | 值类型 | 示例 |
 |------|--------|------|
@@ -64,7 +64,6 @@ python3 txt2jsonl.py ~/books/novel.txt
 | `examples` | array | 0~3个随机字符串 |
 | `ignored_key` | string | 随机字符串（0~80字符） |
 | `query_source` | string | "opensource", "internal", "crawled" 等 |
-| `schema_version` | string | "EB5", "V1.0", "ALPHA" 等 |
 
 ## 章节识别规则
 
