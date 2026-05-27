@@ -7,10 +7,14 @@
 - 自动识别章节标题（支持 `第X章`、`第一章` 等中文数字和阿拉伯数字格式）
 - 每个章节输出为一行 JSON（标准 JSONL 格式）
 - 正文按行随机分段为多个 `text` 字段（50~1000字/段）
-- `text` 字段之间穿插6个噪声字段，模拟真实数据集结构
+- `text` 字段之间穿插5个噪声字段，模拟真实数据集结构
 - 输出文件为合法 JSONL，可被标准 JSON 解析器正确读取
 
-## 使用方法
+## 使用方式
+
+### 方式一：命令行（Python 脚本）
+
+适合批量处理或在终端中使用。
 
 ```bash
 python3 txt2jsonl.py <txt文件路径>
@@ -18,11 +22,32 @@ python3 txt2jsonl.py <txt文件路径>
 
 执行后在当前目录生成 `log.jsonl`。
 
-### 示例
+**示例：**
 
 ```bash
 python3 txt2jsonl.py ~/books/novel.txt
 ```
+
+**依赖：** Python 3.6+，无第三方依赖。
+
+### 方式二：VSCode 插件
+
+适合在编辑器中直接操作，无需切换到终端。
+
+**安装：**
+
+```bash
+code --install-extension txt2jsonl-1.0.0.vsix
+```
+
+或在 VSCode 中：`Ctrl+Shift+P` → "Extensions: Install from VSIX..." → 选择 `.vsix` 文件。
+
+**使用：**
+
+- **命令面板**：`Ctrl+Shift+P` → 输入 "TXT to JSONL" → 转换当前打开的 txt 文件
+- **右键菜单**：在资源管理器中右键 `.txt` 文件 → 选择 "TXT to JSONL: 转换为 JSONL"
+
+输出 `log.jsonl` 生成在 txt 文件同目录下。
 
 ## 输出格式
 
@@ -38,7 +63,6 @@ python3 txt2jsonl.py ~/books/novel.txt
     {"examples": ["random_string"]},
     {"ignored_key": "some_value"},
     {"query_source": "opensource"},
-    {"schema_version": "EB5"},
     {"text": ["下一段第一行", "下一段第二行..."]},
     ...
   ]
@@ -67,7 +91,7 @@ python3 txt2jsonl.py ~/books/novel.txt
 
 ## 章节识别规则
 
-脚本通过正则表达式识别章节标题：
+通过正则表达式识别章节标题：
 
 ```
 第[一二三四五六七八九十百千万零\d]+章\s*.*
@@ -81,11 +105,11 @@ python3 txt2jsonl.py ~/books/novel.txt
 
 ### 边界情况
 
-- **无章节标识**：如果全文没有匹配到任何章节标题，整篇文档作为一个 JSON 输出，`chapter_id` 为 `"全文"`
+- **无章节标识**：整篇文档作为一个 JSON 输出，`chapter_id` 为 `"全文"`
 - **章节前的内容**（如书名、简介等）：不会被包含在输出中，仅从第一个章节开始
 - **空行**：会被保留在 text 数组中作为空字符串元素
 - **特殊字符**：JSON 序列化会自动转义双引号、反斜杠等特殊字符
-- **大文件**：逐章节处理，内存占用与单章节大小相关，非全文加载
+- **大文件**：逐章节处理，内存占用与单章节大小相关
 
 ## text 分段规则
 
@@ -93,11 +117,6 @@ python3 txt2jsonl.py ~/books/novel.txt
 - 每个 text 字段包含的文本总量在 50~1000 字之间（随机）
 - 如果剩余内容不足 50 字，会合并到前一个 text 字段中
 - 最后一个 text 字段之后不插入噪声字段
-
-## 依赖
-
-- Python 3.6+
-- 无第三方依赖（仅使用标准库）
 
 ## 注意事项
 
